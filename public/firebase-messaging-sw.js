@@ -1,3 +1,4 @@
+import firebase from 'firebase/app'
 /**
  * Here is is the code snippet to initialize Firebase Messaging in the Service
  * Worker when your app is not hosted on Firebase Hosting.
@@ -7,12 +8,22 @@
  // are not available in the service worker.
 
   **/
-// importScripts('https://www.gstatic.com/firebasejs/9.2.0/firebase-app-compat.js')
-// importScripts('https://www.gstatic.com/firebasejs/9.2.0/firebase-messaging-compat.js')
+self.importScripts('https://www.gstatic.com/firebasejs/9.2.0/firebase-app-compat.js')
+self.importScripts('https://www.gstatic.com/firebasejs/9.2.0/firebase-messaging-compat.js')
+
+firebase.initializeApp({
+  apiKey: process.env.REACT_APP_API_KEY,
+  authDomain: 'fcm-test-b3e8c.firebaseapp.com',
+  projectId: 'fcm-test-b3e8c',
+  storageBucket: 'fcm-test-b3e8c.appspot.com',
+  messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_APP_ID,
+  measurementId: process.env.REACT_APP_MEASUREMENT_ID,
+})
 
 // // Retrieve an instance of Firebase Messaging so that it can handle background
 // // messages.
-// const messaging = firebase.messaging()
+const messaging = firebase.messaging()
 
 self.addEventListener('install', function (e) {
   console.log('fcm sw install..')
@@ -47,14 +58,14 @@ self.addEventListener('notificationclick', function (event) {
   event.waitUntil(self.clients.openWindow(url))
 })
 
-// messaging.onBackgroundMessage(function (payload) {
-//   console.log('[firebase-messaging-sw.js] Received background message ', payload)
-//   // Customize notification here
-//   const notificationTitle = 'Background Message Title'
-//   const notificationOptions = {
-//     body: 'Background Message body.',
-//     icon: '/firebase-logo.png',
-//   }
+messaging.onBackgroundMessage(function (payload) {
+  console.log('[firebase-messaging-sw.js] Received background message ', payload)
+  // Customize notification here
+  const notificationTitle = 'Background Message Title'
+  const notificationOptions = {
+    body: 'Background Message body.',
+    icon: '/firebase-logo.png',
+  }
 
-//   self.registration.showNotification(notificationTitle, notificationOptions)
-// })
+  self.registration.showNotification(notificationTitle, notificationOptions)
+})
