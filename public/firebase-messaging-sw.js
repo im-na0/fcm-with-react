@@ -10,7 +10,6 @@
     **/
 self.importScripts('https://www.gstatic.com/firebasejs/9.2.0/firebase-app-compat.js')
 self.importScripts('https://www.gstatic.com/firebasejs/9.2.0/firebase-messaging-compat.js')
-self.importScripts('/__/firebase/init.js')
 
 firebase.initializeApp({
   apiKey: process.env.REACT_APP_API_KEY,
